@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio | BTS SIO SLAM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --bg: #161311;
+  --surface: rgba(29, 24, 21, 0.82);
+  --surface-strong: #221d19;
+  --text: #f3ede6;
+  --muted: #b5a89c;
+  --line: rgba(255, 245, 235, 0.08);
+  --accent: #c59a7a;
+  --accent-soft: #3a2f29;
+  --shadow: 0 28px 60px rgba(0, 0, 0, 0.28);
+  --shadow-soft: 0 14px 30px rgba(0, 0, 0, 0.22);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+img, svg { max-width: 100%; }
+
+html {
+  scroll-behavior: smooth;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  font-family: "Outfit", sans-serif;
+  color: var(--text);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  background:
+    radial-gradient(circle at top left, rgba(197, 154, 122, 0.14), transparent 24%),
+    radial-gradient(circle at right center, rgba(72, 54, 43, 0.42), transparent 32%),
+    var(--bg);
+}
+
+a { color: inherit; text-decoration: none; }
+
+.page-shell {
+  width: min(1160px, calc(100% - 32px));
+  margin: 24px auto;
+  overflow-x: clip;
+}
+
+main, section, .topbar, .hero, .tech-hub, .category-grid, .project-list {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+/* ---- TOPBAR ---- */
+.topbar {
+  position: static;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(31, 26, 23, 0.78);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
+}
+
+.brand { flex: 0 1 auto; min-width: 0; font-size: 1.1rem; font-weight: 800; letter-spacing: 0.04em; }
+.brand span { margin-left: 4px; color: var(--muted); font-weight: 500; }
+
+.nav {
+  display: flex; flex: 1 1 320px; min-width: 0; max-width: 100%;
+  flex-wrap: wrap; justify-content: center; gap: 10px;
+  color: var(--muted); font-size: 0.95rem; align-items: center;
+}
+
+.nav-link {
+  position: relative; display: inline-flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 4px; width: auto;
+  min-height: 58px; padding: 6px 10px; border-radius: 0; border: 0;
+  background: transparent;
+  transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+.nav-link:hover, .nav-link:focus-visible { transform: translateY(-1px); }
+
+.nav-icon {
+  width: 38px; height: 38px; display: grid; place-items: center;
+  border-radius: 999px; color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 245, 235, 0.06);
+}
+.nav-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.nav-link .nav-label {
+  position: absolute; top: calc(100% + 8px); left: 50%;
+  display: none !important; visibility: hidden; opacity: 0;
+  min-width: max-content; white-space: nowrap; text-align: center;
+  font-size: 0.82rem; line-height: 1; color: var(--text);
+  transform: translateX(-50%); padding: 5px 8px; margin-left: 0;
+  border: 1px solid var(--line); border-radius: 999px;
+  background: rgba(31, 26, 23, 0.96); box-shadow: var(--shadow-soft);
+  pointer-events: none;
+}
+.nav-link:hover .nav-label, .nav-link:focus-visible .nav-label { display: block !important; visibility: visible; opacity: 1; }
+
+/* ---- BUTTONS ---- */
+.button {
+  display: inline-flex; align-items: center; justify-content: center;
+  max-width: 100%; padding: 11px 18px; border-radius: 999px;
+  background: #f1e6dc; color: #181311; font-weight: 700;
+  box-shadow: var(--shadow-soft);
+  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+.button:hover, .button:focus-visible { transform: translateY(-2px); box-shadow: 0 18px 34px rgba(0,0,0,0.24); }
+.button.secondary, .button.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); box-shadow: none; }
+
+/* ---- LAYOUT ---- */
+main { display: grid; gap: 22px; width: 100%; margin-top: 28px; }
+
+.hero, .about-card, .category-card, .project-card, .skills-block, .contact-block {
+  min-width: 0; max-width: 100%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.hero {
+  display: grid; grid-template-columns: 1.6fr 0.9fr;
+  gap: 18px; padding: 24px; border-radius: 28px; min-height: 62vh;
+}
+
+.hero-copy { min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+
+.eyebrow {
+  margin: 0 0 14px; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 0.18em;
+  font-size: 0.78rem; font-weight: 800;
+}
+
+h1, h2, h3 { margin: 0; line-height: 0.98; }
+h1, h2 { font-family: "Playfair Display", serif; font-weight: 700; }
+h1 { max-width: 10ch; font-size: clamp(4rem, 9vw, 7.3rem); }
+h1 span { color: var(--accent); }
+
+.intro, .about-card p, .category-card p, .project-card p, .contact-block p {
+  color: var(--muted); line-height: 1.75; font-size: 1rem;
+}
+
+.intro { max-width: 58ch; margin: 18px 0 0; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+
+.hero-panel { min-width: 0; display: grid; gap: 14px; }
+
+.panel-card {
+  padding: 18px; border-radius: 22px;
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
+}
+
+.panel-label { margin: 0 0 16px; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.panel-card ul { margin: 0; padding-left: 18px; line-height: 2; color: var(--text); }
+
+.section-grid, .projects, .categories, .skills-contact, .tech-hub { display: grid; gap: 18px; }
+.section-title { padding: 10px 6px 0; }
+.section-title h2 { max-width: 11ch; font-size: clamp(2.5rem, 6vw, 4.7rem); }
+.section-title.narrow h2 { max-width: 14ch; }
+.simple-heading .section-title { text-align: center; }
+.simple-heading .section-title h2, .simple-heading .section-title .eyebrow { max-width: none; }
+
+.about { grid-template-columns: 0.9fr 1.2fr; align-items: start; }
+.about-card, .skills-block, .contact-block { padding: 22px; border-radius: 22px; }
+
+/* ---- CATEGORY ---- */
+.category-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.category-card {
+  min-height: 145px; padding: 18px; border-radius: 22px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+.category-card span { color: var(--accent); font-weight: 800; font-size: 1.2rem; }
+.category-card h3, .project-card h3 { font-size: 1.5rem; }
+.category-card:hover, .category-card:focus-visible, .category-card.is-active {
+  transform: translateY(-4px); border-color: rgba(255,245,235,0.18);
+  background: rgba(39,32,28,0.96); box-shadow: 0 22px 38px rgba(0,0,0,0.24);
+}
+
+.category-detail {
+  padding: 18px 22px; border-radius: 22px;
+  border: 1px solid var(--line); background: rgba(27,23,20,0.96);
+  box-shadow: var(--shadow-soft);
+}
+.category-detail-kicker { margin: 0 0 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.75rem; font-weight: 800; }
+.category-detail h3 { font-size: 1.7rem; margin-bottom: 10px; }
+.category-detail p:last-child { margin: 0; color: var(--muted); line-height: 1.8; }
+
+/* ---- PROJECTS ---- */
+.project-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.project-card { padding: 18px; border-radius: 22px; }
+
+/* ---- TECH HUB ---- */
+.tech-hub { padding: 22px; border-radius: 22px; border: 0; background: transparent; box-shadow: none; }
+.hub-header { display: grid; grid-template-columns: minmax(0,1fr) minmax(240px,320px); gap: 14px; align-items: end; }
+.hub-header > * { min-width: 0; }
+.hub-intro { margin: 0; max-width: 32ch; color: var(--muted); line-height: 1.8; font-size: 1rem; justify-self: end; }
+.hub-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.hub-tab {
+  appearance: none; border: 1px solid rgba(255,245,235,0.08);
+  background: transparent; color: var(--muted); border-radius: 999px;
+  padding: 9px 14px; font: inherit; font-weight: 600; cursor: pointer;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+.hub-tab:hover, .hub-tab:focus-visible { color: var(--text); border-color: rgba(255,245,235,0.14); }
+.hub-tab.is-active { background: rgba(255,245,235,0.08); color: var(--text); border-color: rgba(255,245,235,0.14); }
+.hub-panels { display: grid; max-width: none; min-width: 0; width: 100%; }
+.hub-panel { display: none; width: 100%; min-width: 0; }
+.hub-panel.is-active { display: block; }
+
+/* ---- TECH STRIP ---- */
+.tech-strip { width: 100%; max-width: 100%; overflow: hidden; padding: 18px 0 14px; position: relative; }
+.tech-strip-track { display: flex; align-items: center; gap: 32px; width: max-content; animation: tech-marquee 18s linear infinite; }
+.tech-mark { display: inline-flex; align-items: center; justify-content: center; width: 160px; min-width: 160px; height: 160px; white-space: nowrap; flex: 0 0 auto; }
+.tech-logo { width: 160px; max-width: 100%; height: 160px; display: block; object-fit: contain; }
+.tech-strip-marquee::before, .tech-strip-marquee::after { content: ""; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2; pointer-events: none; }
+.tech-strip-marquee::before { left: 0; background: linear-gradient(90deg, rgba(22,19,17,1) 0%, rgba(22,19,17,0) 100%); }
+.tech-strip-marquee::after { right: 0; left: auto; background: linear-gradient(270deg, rgba(22,19,17,1) 0%, rgba(22,19,17,0) 100%); }
+.tech-strip-marquee:hover .tech-strip-track, .tech-strip-marquee:focus-within .tech-strip-track { animation-play-state: paused; }
+@keyframes tech-marquee { from { transform: translateX(0); } to { transform: translateX(calc(-50% - 16px)); } }
+
+/* ---- PROJECT META ---- */
+.project-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; margin-bottom: 42px; color: var(--muted); font-size: 0.92rem;
+}
+.project-meta p { margin: 0; color: var(--accent); font-weight: 700; }
+
+/* ---- SKILLS / CONTACT ---- */
+.skills-contact { grid-template-columns: 1fr; }
+.tags { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.tags span { padding: 10px 14px; border-radius: 999px; background: var(--surface-strong); border: 1px solid var(--line); font-weight: 700; }
+
+.contact-block h2 { max-width: 10ch; margin-bottom: 16px; font-size: clamp(2.2rem, 4vw, 3.7rem); }
+
+/* ---- REVEAL ---- */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 650ms ease, transform 650ms ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.delay-1 { transition-delay: 120ms; }
+.delay-2 { transition-delay: 220ms; }
+.delay-3 { transition-delay: 320ms; }
+.delay-4 { transition-delay: 420ms; }
+
+/* ================================================================
+   SECTION STAGE — JOURNAL INTERACTIF
+   ================================================================ */
+
+.stage-journal {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* Vues */
+.stage-view { display: none; }
+.stage-view.active { display: block; }
+
+/* ---- VUE SEMAINES ---- */
+.weeks-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--line);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.weeks-header-left { display: flex; flex-direction: column; gap: 4px; }
+
+.weeks-add-btn {
+  appearance: none;
+  background: rgba(197, 154, 122, 0.12);
+  border: 1px solid rgba(197, 154, 122, 0.28);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 9px 16px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: background 180ms, border-color 180ms, transform 180ms;
+}
+.weeks-add-btn:hover { background: rgba(197,154,122,0.2); transform: translateY(-1px); }
+.weeks-add-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+
+.weeks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  padding: 20px 24px 24px;
+}
+
+.week-tile {
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 180ms, border-color 180ms, box-shadow 180ms;
+}
+.week-tile:hover { transform: translateY(-3px); border-color: rgba(255,245,235,0.18); box-shadow: 0 16px 32px rgba(0,0,0,0.22); }
+
+.week-tile-num {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+
+.week-tile-dates {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.week-tile-progress {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.week-tile-progress-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255,245,235,0.06);
+  overflow: hidden;
+}
+.week-tile-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: width 400ms ease;
+}
+.week-tile-progress-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.week-tile-delete {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 180ms, background 180ms, color 180ms;
+}
+.week-tile:hover .week-tile-delete { opacity: 1; }
+.week-tile-delete:hover { background: rgba(255,80,80,0.15); color: #ff6060; border-color: rgba(255,80,80,0.3); }
+.week-tile-delete svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+
+.empty-state {
+  grid-column: 1 / -1;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.empty-state svg { width: 40px; height: 40px; stroke: var(--muted); fill: none; stroke-width: 1.4; stroke-linecap: round; opacity: 0.4; margin-bottom: 12px; }
+
+/* ---- VUE JOURS ---- */
+.days-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.back-btn {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  border-radius: 999px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 180ms, color 180ms, background 180ms;
+}
+.back-btn:hover { border-color: rgba(255,245,235,0.2); color: var(--text); background: rgba(255,245,235,0.04); }
+.back-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.days-header-info { flex: 1; min-width: 0; }
+.days-header-info h3 { font-size: 1.15rem; font-weight: 700; color: var(--text); margin: 0 0 2px; }
+.days-header-info span { font-size: 0.82rem; color: var(--muted); }
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  padding: 20px 24px 24px;
+}
+
+.day-tile {
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 180ms, border-color 180ms, box-shadow 180ms;
+}
+.day-tile:hover { transform: translateY(-3px); border-color: rgba(255,245,235,0.18); box-shadow: 0 16px 32px rgba(0,0,0,0.22); }
+
+.day-tile-top {
+  padding: 14px 14px 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.day-tile-name {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.day-tile-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255,245,235,0.1);
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: background 300ms;
+}
+.day-tile-dot.has-content { background: var(--accent); }
+
+.day-tile-date {
+  padding: 0 14px 6px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.day-tile-preview {
+  padding: 8px 14px 14px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+  min-height: 52px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.day-tile-preview.empty { opacity: 0.4; font-style: italic; }
+
+/* ---- VUE JOUR DETAIL ---- */
+.day-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.day-detail-info { flex: 1; min-width: 0; }
+.day-detail-info h3 { font-size: 1.15rem; font-weight: 700; margin: 0 0 2px; }
+.day-detail-info span { font-size: 0.82rem; color: var(--muted); }
+
+.day-detail-body { padding: 22px 24px 24px; display: grid; gap: 20px; }
+
+.entry-section-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+}
+
+.entry-textarea {
+  width: 100%;
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: var(--text);
+  font-family: "Outfit", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  padding: 14px 16px;
+  resize: vertical;
+  min-height: 110px;
+  transition: border-color 180ms, box-shadow 180ms;
+  outline: none;
+}
+.entry-textarea::placeholder { color: rgba(181,168,156,0.45); }
+.entry-textarea:focus { border-color: rgba(197,154,122,0.4); box-shadow: 0 0 0 3px rgba(197,154,122,0.1); }
+
+.entry-tags-input {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  min-height: 48px;
+  cursor: text;
+  transition: border-color 180ms;
+}
+.entry-tags-input:focus-within { border-color: rgba(197,154,122,0.4); }
+
+.entry-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(197,154,122,0.14);
+  border: 1px solid rgba(197,154,122,0.25);
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.entry-tag button {
+  appearance: none;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  opacity: 0.6;
+  transition: opacity 120ms;
+}
+.entry-tag button:hover { opacity: 1; }
+.entry-tag button svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; }
+
+.entry-tag-field {
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: "Outfit", sans-serif;
+  font-size: 0.88rem;
+  min-width: 90px;
+  flex: 1;
+}
+.entry-tag-field::placeholder { color: rgba(181,168,156,0.4); }
+
+.save-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.save-status {
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 300ms;
+}
+.save-status.visible { opacity: 1; }
+.save-status svg { width: 14px; height: 14px; fill: none; stroke: var(--accent); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+.save-btn {
+  appearance: none;
+  background: var(--accent);
+  border: none;
+  color: #181311;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 180ms, box-shadow 180ms;
+}
+.save-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,0.22); }
+
+/* ---- MODAL AJOUT SEMAINE ---- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,8,7,0.75);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  display: none;
+  place-items: center;
+  padding: 20px;
+}
+.modal-overlay.open { display: grid; }
+
+.modal {
+  background: var(--surface-strong);
+  border: 1px solid rgba(255,245,235,0.1);
+  border-radius: 22px;
+  padding: 28px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  display: grid;
+  gap: 18px;
+}
+
+.modal-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text);
+}
+
+.modal-field { display: flex; flex-direction: column; gap: 7px; }
+.modal-label { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+.modal-input {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: "Outfit", sans-serif;
+  font-size: 0.95rem;
+  padding: 11px 14px;
+  outline: none;
+  transition: border-color 180ms, box-shadow 180ms;
+}
+.modal-input:focus { border-color: rgba(197,154,122,0.4); box-shadow: 0 0 0 3px rgba(197,154,122,0.1); }
+
+.modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+.modal-cancel {
+  appearance: none; background: transparent; border: 1px solid var(--line);
+  color: var(--muted); border-radius: 999px; padding: 9px 16px;
+  font: inherit; font-size: 0.9rem; cursor: pointer; transition: border-color 180ms, color 180ms;
+}
+.modal-cancel:hover { border-color: rgba(255,245,235,0.18); color: var(--text); }
+.modal-confirm {
+  appearance: none; background: var(--accent); border: none; color: #181311;
+  border-radius: 999px; padding: 9px 18px; font: inherit; font-size: 0.9rem;
+  font-weight: 700; cursor: pointer; transition: transform 180ms, box-shadow 180ms;
+}
+.modal-confirm:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(0,0,0,0.2); }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 980px) {
+  .hero, .about, .skills-contact, .project-list, .category-grid { grid-template-columns: 1fr; }
+  .hub-header { grid-template-columns: 1fr; }
+  .hub-intro { max-width: none; justify-self: start; }
+  .topbar { border-radius: 18px; }
+  .nav { gap: 10px; justify-content: flex-start; }
+  .hero { min-height: auto; padding: 22px; }
+  h1 { max-width: 12ch; }
+  .days-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .page-shell { width: min(1160px, calc(100% - 20px)); margin: 10px auto 24px; }
+  .topbar, .hero, .about-card, .category-card, .project-card, .tech-hub, .skills-block, .contact-block, .stage-journal { border-radius: 16px; }
+  .hero, .about-card, .category-card, .project-card, .tech-hub, .skills-block, .contact-block { padding: 16px; }
+  .tech-strip-track { gap: 24px; }
+  .tech-mark { width: 120px; min-width: 120px; height: 120px; }
+  .tech-logo { width: 120px; height: 120px; }
+  .tech-strip-marquee::before, .tech-strip-marquee::after { width: 56px; }
+  .brand, .button.ghost, .nav { width: 100%; }
+  .nav-link { flex: 1 1 100%; }
+  h1 { font-size: 2.9rem; }
+  .section-title h2, .contact-block h2 { font-size: 2.6rem; }
+  .days-grid { grid-template-columns: repeat(2, 1fr); }
+  .weeks-header, .days-header, .day-detail-header { padding: 16px; }
+  .weeks-grid, .days-grid, .day-detail-body { padding: 14px 16px 16px; }
+}
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a href="#accueil" class="brand">Gwendal.<span>BTS SIO SLAM</span></a>
+      <nav class="nav">
+        <a href="#apropos" class="nav-link" aria-label="A propos">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"></circle><path d="M5 19c1.8-3 4.1-4.5 7-4.5S17.2 16 19 19"></path></svg></span>
+          <span class="nav-label">A propos</span>
+        </a>
+        <a href="#technologies" class="nav-link" aria-label="Technique">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l7 4v8l-7 4-7-4V8l7-4z"></path><path d="M12 9v6M9 12h6"></path></svg></span>
+          <span class="nav-label">Technique</span>
+        </a>
+        <a href="#categories" class="nav-link" aria-label="Categories">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.4"></rect><rect x="14" y="4" width="6" height="6" rx="1.4"></rect><rect x="4" y="14" width="6" height="6" rx="1.4"></rect><rect x="14" y="14" width="6" height="6" rx="1.4"></rect></svg></span>
+          <span class="nav-label">Categories</span>
+        </a>
+        <a href="#projets" class="nav-link" aria-label="Projets">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7.5h16"></path><path d="M7.5 4v7"></path><rect x="4" y="7.5" width="16" height="12.5" rx="2"></rect></svg></span>
+          <span class="nav-label">Projets</span>
+        </a>
+        <a href="#stage" class="nav-link" aria-label="Stage">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><path d="M12 12v2m0 0h2m-2 0H10"></path></svg></span>
+          <span class="nav-label">Stage</span>
+        </a>
+        <a href="#contact" class="nav-link" aria-label="Contact">
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7.5L12 13l8-5.5"></path><rect x="4" y="6" width="16" height="12" rx="2"></rect></svg></span>
+          <span class="nav-label">Contact</span>
+        </a>
+      </nav>
+      <a href="#contact" class="button ghost">Me contacter</a>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero" id="accueil">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Etudiant • BTS SIO SLAM • developpement web</p>
+          <h1>Un portfolio <span>propre</span>, structure et tourne vers le code.</h1>
+          <p class="intro">Etudiant en BTS SIO SLAM, je presente ici l'essentiel : mes competences, mes outils et quelques projets.</p>
+          <div class="hero-actions">
+            <a href="#projets" class="button">Voir mes projets</a>
+            <a href="#apropos" class="button secondary">Mon profil</a>
+          </div>
+        </div>
+        <aside class="hero-panel reveal delay-1">
+          <div class="panel-card">
+            <p class="panel-label">Focus</p>
+            <ul>
+              <li>Developpement web</li>
+              <li>Programmation et logique</li>
+              <li>Projets scolaires et personnels</li>
+            </ul>
+          </div>
+          <div class="panel-card accent">
+            <p class="panel-label">Signature</p>
+            <p>Une presentation claire, serieuse et moderne pour valoriser un profil BTS SIO SLAM, les competences techniques et les projets.</p>
+          </div>
+        </aside>
+      </section>
+
+      <!-- A PROPOS -->
+       <br> 
+      <section class="section-grid simple-heading" id="apropos">
+        <div class="section-title reveal">
+          <p class="eyebrow">A propos</p>
+          <h2>Competences</h2>
+        </div>
+      </section>
+
+      <!-- TECH HUB -->
+      <section class="tech-hub reveal" id="technologies">
+        <div class="hub-header">
+          <div class="section-title"><p class="eyebrow">Onglet Technique</p></div>
+          <p class="hub-intro">Les outils et notions que j'utilise le plus pendant ma formation.</p>
+        </div>
+        <div class="hub-tabs" role="tablist" aria-label="Technologies">
+          <button class="hub-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-dev" id="tab-dev" data-tab-target="panel-dev">Developpement</button>
+          <button class="hub-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-data" id="tab-data" data-tab-target="panel-data">Donnees</button>
+          <button class="hub-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-tools" id="tab-tools" data-tab-target="panel-tools">Outils</button>
+        </div>
+        <div class="hub-panels">
+          <section class="hub-panel is-active" id="panel-dev" role="tabpanel" aria-labelledby="tab-dev">
+            <div class="tech-strip tech-strip-marquee"><div class="tech-strip-track">
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/html.svg" alt="HTML"></span>
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/css.svg" alt="CSS"></span>
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/java.svg" alt="Java"></span>
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/javascript.svg" alt="JavaScript"></span>
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/php.svg" alt="PHP"></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/html.svg" alt=""></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/css.svg" alt=""></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/java.svg" alt=""></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/javascript.svg" alt=""></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/php.svg" alt=""></span>
+            </div></div>
+          </section>
+          <section class="hub-panel" id="panel-data" role="tabpanel" aria-labelledby="tab-data" hidden>
+            <div class="tech-strip tech-strip-marquee"><div class="tech-strip-track">
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/sql.svg" alt="SQL"></span>
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/mysql.svg" alt="MySQL"></span>
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/database.svg" alt="Base de donnees"></span>
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/tables.svg" alt="Tables"></span>
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/mcd.svg" alt="MCD"></span>
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/mld.svg" alt="MLD"></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/sql.svg" alt=""></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/mysql.svg" alt=""></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/database.svg" alt=""></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/tables.svg" alt=""></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/mcd.svg" alt=""></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/mld.svg" alt=""></span>
+            </div></div>
+          </section>
+          <section class="hub-panel" id="panel-tools" role="tabpanel" aria-labelledby="tab-tools" hidden>
+            <div class="tech-strip tech-strip-marquee"><div class="tech-strip-track">
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/git.svg" alt="Git"></span>
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/vscode.svg" alt="VS Code"></span>
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/terminal.svg" alt="Terminal"></span>
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/tests.svg" alt="Tests"></span>
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/workflow.svg" alt="Workflow"></span>
+              <span class="tech-mark"><img class="tech-logo" src="assets/logos/debug.svg" alt="Debug"></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/git.svg" alt=""></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/vscode.svg" alt=""></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/terminal.svg" alt=""></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/workflow.svg" alt=""></span>
+              <span class="tech-mark" aria-hidden="true"><img class="tech-logo" src="assets/logos/debug.svg" alt=""></span>
+            </div></div>
+          </section>
+        </div>
+      </section>
+
+      <!-- CATEGORIES -->
+      <section class="categories" id="categories">
+        <div class="section-title narrow reveal">
+          <p class="eyebrow">Categories</p>
+          <h2>Des categories interactives et plus rapides a parcourir.</h2>
+        </div>
+        <div class="category-grid">
+          <article class="category-card reveal is-active" data-category="web" tabindex="0"><span>01</span><h3>Developpement Web</h3><p>Interfaces, integration et responsive.</p></article>
+          <article class="category-card reveal delay-1" data-category="prog" tabindex="0"><span>02</span><h3>Programmation</h3><p>Logique, algorithmique et code structure.</p></article>
+          <article class="category-card reveal delay-2" data-category="data" tabindex="0"><span>03</span><h3>Bases de donnees</h3><p>SQL, relations et gestion de donnees.</p></article>
+          <article class="category-card reveal delay-3" data-category="veille" tabindex="0"><span>04</span><h3>Veille & Projets</h3><p>Apprentissage continu et projets concrets.</p></article>
+          <article class="category-card reveal delay-4" data-category="stage" tabindex="0"><span>05</span><h3>Stage</h3><p>Experience en entreprise et mise en pratique.</p></article>
+        </div>
+        <div class="category-detail reveal" id="category-detail">
+          <p class="category-detail-kicker">Categorie active</p>
+          <h3 id="category-title">Developpement Web</h3>
+          <p id="category-text">Je travaille la creation d'interfaces propres, responsives et faciles a utiliser.</p>
+        </div>
+      </section>
+
+      <!-- PROJETS -->
+      <section class="projects" id="projets">
+        <div class="section-title reveal"><p class="eyebrow">Projets</p><h2>Une selection courte de projets.</h2></div>
+        <div class="project-list">
+          <article class="project-card reveal">
+            <div class="project-meta"><p>Projet 01</p><span>Projet web</span></div>
+            <h3>Site vitrine responsive</h3>
+            <p>Realisation d'un site clair et responsive avec une structure HTML/CSS propre et une attention particuliere a l'experience utilisateur.</p>
+          </article>
+          <article class="project-card reveal delay-1">
+            <div class="project-meta"><p>Projet 02</p><span>Projet applicatif</span></div>
+            <h3>Application de gestion</h3>
+            <p>Conception d'une petite application ou interface permettant de gerer des donnees, d'organiser des informations et de pratiquer la logique.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SECTION STAGE — JOURNAL INTERACTIF
+           ========================================== -->
+      <section class="projects" id="stage">
+        <div class="section-title reveal">
+          <p class="eyebrow">Stage</p>
+          <h2>Journal de bord.</h2>
+        </div>
+
+        <div class="stage-journal reveal" id="stage-journal">
+
+          <!-- VUE 1 : Liste des semaines -->
+          <div class="stage-view active" id="view-weeks">
+            <div class="weeks-header">
+              <div class="weeks-header-left">
+                <p class="eyebrow" style="margin:0 0 4px">Journal de stage</p>
+                <span style="font-size:0.88rem;color:var(--muted)">Selectionne une semaine pour voir les jours</span>
+              </div>
+              <button class="weeks-add-btn" id="btn-add-week">
+                <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                Ajouter une semaine
+              </button>
+            </div>
+            <div class="weeks-grid" id="weeks-grid">
+              <div class="empty-state" id="weeks-empty">
+                <svg viewBox="0 0 24 24" style="display:block;margin:0 auto 12px"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                <p style="margin:0 0 6px;font-weight:700;color:var(--text)">Aucune semaine encore</p>
+                <p style="margin:0;font-size:0.88rem">Clique sur "Ajouter une semaine" pour commencer ton journal.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- VUE 2 : Jours de la semaine -->
+          <div class="stage-view" id="view-days">
+            <div class="days-header">
+              <button class="back-btn" id="btn-back-weeks" aria-label="Retour semaines">
+                <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div class="days-header-info">
+                <h3 id="days-week-title">Semaine 1</h3>
+                <span id="days-week-dates"></span>
+              </div>
+            </div>
+            <div class="days-grid" id="days-grid"></div>
+          </div>
+
+          <!-- VUE 3 : Detail d'un jour -->
+          <div class="stage-view" id="view-day-detail">
+            <div class="day-detail-header">
+              <button class="back-btn" id="btn-back-days" aria-label="Retour jours">
+                <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div class="day-detail-info">
+                <h3 id="detail-day-name">Lundi</h3>
+                <span id="detail-day-date"></span>
+              </div>
+            </div>
+            <div class="day-detail-body">
+              <div>
+                <p class="entry-section-title">Ce que j'ai fait</p>
+                <textarea class="entry-textarea" id="entry-tasks" placeholder="Decris tes taches, missions ou activites du jour..." rows="5"></textarea>
+              </div>
+              <div>
+                <p class="entry-section-title">Ce que j'ai appris</p>
+                <textarea class="entry-textarea" id="entry-learned" placeholder="Nouvelle notion, outil decouverte, competence pratiquee..." rows="4"></textarea>
+              </div>
+              <div>
+                <p class="entry-section-title">Notes & remarques</p>
+                <textarea class="entry-textarea" id="entry-notes" placeholder="Difficultes rencontrees, questions, ressenti general..." rows="3"></textarea>
+              </div>
+              <div>
+                <p class="entry-section-title">Tags / mots-cles</p>
+                <div class="entry-tags-input" id="tags-container">
+                  <input class="entry-tag-field" id="tag-input" placeholder="Ajoute un tag, valide avec Entree..." type="text">
+                </div>
+              </div>
+              <div class="save-bar">
+                <span class="save-status" id="save-status">
+                  <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                  Sauvegarde automatique
+                </span>
+                <button class="save-btn" id="btn-save">Enregistrer</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="skills-contact">
+        <div class="contact-block reveal delay-1" id="contact">
+          <p class="eyebrow">Contact</p>
+          <h2>A la recherche d'un stage, d'une alternance ou d'une opportunite.</h2>
+          <p>Je suis disponible pour echanger autour de mon parcours, de mes projets et de mes competences en BTS SIO SLAM.</p>
+          <a href="mailto:bonjour@tonportfolio.fr" class="button">Envoyer un message</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL AJOUT SEMAINE -->
+  <div class="modal-overlay" id="modal-add-week" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <h2 class="modal-title" id="modal-title">Nouvelle semaine</h2>
+      <div class="modal-field">
+        <label class="modal-label" for="modal-label-input">Nom de la semaine</label>
+        <input class="modal-input" id="modal-label-input" type="text" placeholder="ex: Semaine 1 — Integration" maxlength="60">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label" for="modal-date-start">Date de debut (lundi)</label>
+        <input class="modal-input" id="modal-date-start" type="date">
+      </div>
+      <div class="modal-actions">
+        <button class="modal-cancel" id="modal-cancel">Annuler</button>
+        <button class="modal-confirm" id="modal-confirm">Creer la semaine</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+/* ================================================================
+   REVEAL (scroll animations)
+   ================================================================ */
+const reveals = document.querySelectorAll(".reveal");
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); });
+}, { threshold: 0.18 });
+reveals.forEach(el => observer.observe(el));
+
+/* ================================================================
+   TECH HUB TABS
+   ================================================================ */
+const tabs = document.querySelectorAll(".hub-tab");
+const panels = document.querySelectorAll(".hub-panel");
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    const targetId = tab.dataset.tabTarget;
+    tabs.forEach(t => { t.classList.remove("is-active"); t.setAttribute("aria-selected","false"); });
+    panels.forEach(p => { p.classList.remove("is-active"); p.hidden = true; });
+    tab.classList.add("is-active"); tab.setAttribute("aria-selected","true");
+    const target = document.getElementById(targetId);
+    if (target) { target.classList.add("is-active"); target.hidden = false; }
+  });
+});
+
+/* ================================================================
+   CATEGORY CARDS
+   ================================================================ */
+const categoryCards = document.querySelectorAll(".category-card");
+const categoryTitle = document.getElementById("category-title");
+const categoryText = document.getElementById("category-text");
+const categoryContent = {
+  web:   { title: "Developpement Web",    text: "Je travaille la creation d'interfaces propres, responsives et faciles a utiliser." },
+  prog:  { title: "Programmation",        text: "Je developpe ma logique, ma structuration du code et ma maniere de resoudre un probleme." },
+  data:  { title: "Bases de donnees",     text: "J'apprends a organiser les donnees, creer des relations et ecrire des requetes SQL claires." },
+  veille:{ title: "Veille & Projets",     text: "Je progresse avec des projets concrets, de la veille et une pratique reguliere." },
+  stage: { title: "Stage",                text: "Je mets en pratique mes competences en entreprise, decouvre un environnement professionnel et contribue a des projets reels." },
+};
+categoryCards.forEach(card => {
+  const activate = () => {
+    const content = categoryContent[card.dataset.category];
+    categoryCards.forEach(c => c.classList.remove("is-active"));
+    card.classList.add("is-active");
+    if (content && categoryTitle && categoryText) {
+      categoryTitle.textContent = content.title;
+      categoryText.textContent  = content.text;
+    }
+  };
+  card.addEventListener("click", activate);
+  card.addEventListener("keydown", e => { if (e.key==="Enter"||e.key===" ") { e.preventDefault(); activate(); } });
+});
+
+/* ================================================================
+   STAGE JOURNAL
+   ================================================================ */
+
+// --- Storage helpers (localStorage) ---
+const STORAGE_KEY = "stage_journal_v1";
+
+function loadData() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { weeks: [] }; }
+  catch { return { weeks: [] }; }
+}
+
+function saveData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+// --- State ---
+let data = loadData();
+let currentWeekId = null;
+let currentDayKey = null; // "weekId_dayIndex"
+
+// --- DOM refs ---
+const viewWeeks = document.getElementById("view-weeks");
+const viewDays  = document.getElementById("view-days");
+const viewDay   = document.getElementById("view-day-detail");
+const weeksGrid = document.getElementById("weeks-grid");
+const weeksEmpty= document.getElementById("weeks-empty");
+const daysGrid  = document.getElementById("days-grid");
+
+const daysTitleEl  = document.getElementById("days-week-title");
+const daysDatesEl  = document.getElementById("days-week-dates");
+const detailDayName= document.getElementById("detail-day-name");
+const detailDayDate= document.getElementById("detail-day-date");
+
+const entryTasks   = document.getElementById("entry-tasks");
+const entryLearned = document.getElementById("entry-learned");
+const entryNotes   = document.getElementById("entry-notes");
+const tagsContainer= document.getElementById("tags-container");
+const tagInput     = document.getElementById("tag-input");
+const saveStatus   = document.getElementById("save-status");
+
+const DAY_NAMES = ["Lundi","Mardi","Mercredi","Jeudi","Vendredi"];
+
+// --- View switching ---
+function showView(id) {
+  [viewWeeks, viewDays, viewDay].forEach(v => v.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+// --- Render weeks ---
+function renderWeeks() {
+  // Clear tiles (keep empty state)
+  Array.from(weeksGrid.children).forEach(c => { if (c !== weeksEmpty) c.remove(); });
+
+  if (data.weeks.length === 0) {
+    weeksEmpty.style.display = "";
+    return;
+  }
+  weeksEmpty.style.display = "none";
+
+  data.weeks.forEach(week => {
+    const filled = week.days.filter(d => d.tasks || d.learned || d.notes).length;
+    const pct = Math.round((filled / 5) * 100);
+
+    const tile = document.createElement("article");
+    tile.className = "week-tile";
+    tile.innerHTML = `
+      <p class="week-tile-num">Semaine ${week.num}</p>
+      <p class="week-tile-dates">${formatWeekRange(week.startDate)}</p>
+      <div class="week-tile-progress">
+        <div class="week-tile-progress-bar"><div class="week-tile-progress-fill" style="width:${pct}%"></div></div>
+        <span class="week-tile-progress-label">${filled}/5 jours</span>
+      </div>
+      <button class="week-tile-delete" title="Supprimer" aria-label="Supprimer la semaine">
+        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    `;
+    tile.addEventListener("click", e => {
+      if (e.target.closest(".week-tile-delete")) return;
+      openWeek(week.id);
+    });
+    tile.querySelector(".week-tile-delete").addEventListener("click", e => {
+      e.stopPropagation();
+      if (confirm(`Supprimer "${week.label}" et toutes ses entrees ?`)) {
+        data.weeks = data.weeks.filter(w => w.id !== week.id);
+        saveData(data);
+        renderWeeks();
+      }
+    });
+    weeksGrid.appendChild(tile);
+  });
+}
+
+// --- Open a week → show days ---
+function openWeek(weekId) {
+  currentWeekId = weekId;
+  const week = data.weeks.find(w => w.id === weekId);
+  if (!week) return;
+
+  daysTitleEl.textContent = week.label;
+  daysDatesEl.textContent = formatWeekRange(week.startDate);
+
+  renderDays(week);
+  showView("view-days");
+}
+
+// --- Render days ---
+function renderDays(week) {
+  daysGrid.innerHTML = "";
+  week.days.forEach((day, idx) => {
+    const dateStr = getDayDate(week.startDate, idx);
+    const hasContent = !!(day.tasks || day.learned || day.notes);
+    const preview = day.tasks || day.learned || day.notes || "";
+
+    const tile = document.createElement("article");
+    tile.className = "day-tile";
+    tile.innerHTML = `
+      <div class="day-tile-top">
+        <span class="day-tile-name">${DAY_NAMES[idx]}</span>
+        <span class="day-tile-dot ${hasContent ? "has-content" : ""}"></span>
+      </div>
+      <p class="day-tile-date">${dateStr}</p>
+      <p class="day-tile-preview ${preview ? "" : "empty"}">${escHtml(preview) || "Rien de saisi..."}</p>
+    `;
+    tile.addEventListener("click", () => openDay(week.id, idx));
+    daysGrid.appendChild(tile);
+  });
+}
+
+// --- Open a day ---
+function openDay(weekId, dayIdx) {
+  currentDayKey = `${weekId}_${dayIdx}`;
+  const week = data.weeks.find(w => w.id === weekId);
+  if (!week) return;
+  const day = week.days[dayIdx];
+
+  detailDayName.textContent = `${week.label} — ${DAY_NAMES[dayIdx]}`;
+  detailDayDate.textContent = getDayDate(week.startDate, dayIdx);
+
+  entryTasks.value   = day.tasks   || "";
+  entryLearned.value = day.learned || "";
+  entryNotes.value   = day.notes   || "";
+
+  renderTags(day.tags || []);
+  saveStatus.classList.remove("visible");
+
+  showView("view-day-detail");
+}
+
+// --- Save day ---
+function saveDay() {
+  if (!currentDayKey) return;
+  const [weekId, dayIdxStr] = currentDayKey.split("_");
+  const week = data.weeks.find(w => w.id === weekId);
+  if (!week) return;
+  const dayIdx = parseInt(dayIdxStr, 10);
+
+  week.days[dayIdx].tasks   = entryTasks.value.trim();
+  week.days[dayIdx].learned = entryLearned.value.trim();
+  week.days[dayIdx].notes   = entryNotes.value.trim();
+  week.days[dayIdx].tags    = getCurrentTags();
+
+  saveData(data);
+
+  saveStatus.classList.add("visible");
+  setTimeout(() => saveStatus.classList.remove("visible"), 2000);
+}
+
+// --- Tags ---
+let _currentTags = [];
+
+function renderTags(tags) {
+  _currentTags = [...tags];
+  // Remove existing tag pills (keep the input)
+  Array.from(tagsContainer.querySelectorAll(".entry-tag")).forEach(t => t.remove());
+  _currentTags.forEach(tag => {
+    const pill = buildTagPill(tag);
+    tagsContainer.insertBefore(pill, tagInput);
+  });
+}
+
+function buildTagPill(tag) {
+  const span = document.createElement("span");
+  span.className = "entry-tag";
+  span.innerHTML = `${escHtml(tag)}<button aria-label="Supprimer ${escHtml(tag)}"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>`;
+  span.querySelector("button").addEventListener("click", () => {
+    _currentTags = _currentTags.filter(t => t !== tag);
+    span.remove();
+  });
+  return span;
+}
+
+function getCurrentTags() { return [..._currentTags]; }
+
+tagInput.addEventListener("keydown", e => {
+  if ((e.key === "Enter" || e.key === ",") && tagInput.value.trim()) {
+    e.preventDefault();
+    const tag = tagInput.value.trim().replace(/,/g,"");
+    if (tag && !_currentTags.includes(tag)) {
+      _currentTags.push(tag);
+      const pill = buildTagPill(tag);
+      tagsContainer.insertBefore(pill, tagInput);
+    }
+    tagInput.value = "";
+  }
+});
+
+// --- Helpers ---
+function escHtml(str) {
+  return String(str).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+function formatWeekRange(startDate) {
+  if (!startDate) return "";
+  const d = new Date(startDate + "T00:00:00");
+  const end = new Date(d); end.setDate(end.getDate() + 4);
+  const fmt = dt => dt.toLocaleDateString("fr-FR", { day:"2-digit", month:"short" });
+  return `${fmt(d)} → ${fmt(end)} ${end.getFullYear()}`;
+}
+
+function getDayDate(startDate, idx) {
+  if (!startDate) return "";
+  const d = new Date(startDate + "T00:00:00");
+  d.setDate(d.getDate() + idx);
+  return d.toLocaleDateString("fr-FR", { weekday:"long", day:"2-digit", month:"long", year:"numeric" });
+}
+
+function generateId() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+}
+
+// --- Modal add week ---
+const modal        = document.getElementById("modal-add-week");
+const btnAddWeek   = document.getElementById("btn-add-week");
+const btnModalCancel = document.getElementById("modal-cancel");
+const btnModalConfirm= document.getElementById("modal-confirm");
+const modalLabelInput = document.getElementById("modal-label-input");
+const modalDateStart  = document.getElementById("modal-date-start");
+
+function openModal() {
+  modalLabelInput.value = `Semaine ${data.weeks.length + 1}`;
+  // Set next monday as default
+  const now = new Date();
+  const day = now.getDay();
+  const diff = day === 0 ? 1 : (day === 1 ? 0 : 8 - day);
+  now.setDate(now.getDate() + diff);
+  modalDateStart.value = now.toISOString().slice(0,10);
+  modal.classList.add("open");
+  setTimeout(() => modalLabelInput.focus(), 50);
+}
+function closeModal() { modal.classList.remove("open"); }
+
+btnAddWeek.addEventListener("click", openModal);
+btnModalCancel.addEventListener("click", closeModal);
+modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+
+btnModalConfirm.addEventListener("click", () => {
+  const label = modalLabelInput.value.trim() || `Semaine ${data.weeks.length + 1}`;
+  const startDate = modalDateStart.value;
+
+  const week = {
+    id: generateId(),
+    num: data.weeks.length + 1,
+    label,
+    startDate,
+    days: Array.from({length: 5}, () => ({ tasks:"", learned:"", notes:"", tags:[] }))
+  };
+
+  data.weeks.push(week);
+  saveData(data);
+  renderWeeks();
+  closeModal();
+});
+
+// --- Navigation ---
+document.getElementById("btn-back-weeks").addEventListener("click", () => {
+  showView("view-weeks");
+});
+
+document.getElementById("btn-back-days").addEventListener("click", () => {
+  const week = data.weeks.find(w => w.id === currentWeekId);
+  if (week) renderDays(week);
+  showView("view-days");
+});
+
+document.getElementById("btn-save").addEventListener("click", saveDay);
+
+// Auto-save on input change (debounced)
+let autoSaveTimer = null;
+[entryTasks, entryLearned, entryNotes].forEach(el => {
+  el.addEventListener("input", () => {
+    clearTimeout(autoSaveTimer);
+    autoSaveTimer = setTimeout(saveDay, 1200);
+  });
+});
+
+// --- Init ---
+renderWeeks();
+  </script>
+</body>
+</html>export function canFreePrisoner(
+  knightIsAwake,
+  archerIsAwake,
+  prisonerIsAwake,
+  petDogIsPresent,
+) {
+  return (
+    (petDogIsPresent && !archerIsAwake) ||
+    (!petDogIsPresent && !knightIsAwake && !archerIsAwake && prisonerIsAwake)
+  );
+}
