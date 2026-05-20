@@ -1099,7 +1099,7 @@ h1 span { color: var(--accent); }
         <h2 class="project-modal-title" id="pmodal-title">Titre du projet</h2>
         <p class="project-modal-desc" id="pmodal-desc">Description du projet.</p>
         <div class="project-modal-tags" id="pmodal-tags"></div>
-        <div class="project-modal-actions" id="pmodal-actions"></div>
+<div class="project-modal-actions" id="pmodal-actions"></div>
       </div>
     </div>
   </div>
@@ -1478,40 +1478,28 @@ let autoSaveTimer = null;
 
 const PROJECTS = [
   {
-    num: "01",
-    type: "Projet web",
-    title: "Site vitrine responsive",
+    num: "01", type: "Projet web", title: "Site vitrine responsive",
     short: "Un site clair et responsive, structure HTML/CSS propre.",
     desc: "Realisation d'un site vitrine complet, clair et responsive avec une structure HTML et CSS propre. Attention particuliere portee a l'experience utilisateur, a l'accessibilite et a la compatibilite mobile.",
-    tags: ["HTML", "CSS", "Responsive", "UX"],
-    link: null
+    tags: ["HTML", "CSS", "Responsive", "UX"], link: null
   },
   {
-    num: "02",
-    type: "Projet applicatif",
-    title: "Application de gestion",
+    num: "02", type: "Projet applicatif", title: "Application de gestion",
     short: "Interface de gestion de donnees avec logique applicative.",
     desc: "Conception d'une interface permettant de gerer des donnees, d'organiser des informations et de pratiquer la logique applicative. Travail sur la structure des donnees, les formulaires et l'affichage dynamique.",
-    tags: ["JavaScript", "PHP", "MySQL", "CRUD"],
-    link: null
+    tags: ["JavaScript", "PHP", "MySQL", "CRUD"], link: null
   },
   {
-    num: "03",
-    type: "Projet BDD",
-    title: "Modele de base de donnees",
+    num: "03", type: "Projet BDD", title: "Modele de base de donnees",
     short: "Conception MCD/MLD et implementation SQL.",
     desc: "Creation d'un modele conceptuel et logique de donnees pour un systeme metier. Traduction en schema SQL, creation des tables, contraintes et requetes de manipulation.",
-    tags: ["SQL", "MySQL", "MCD", "MLD"],
-    link: null
+    tags: ["SQL", "MySQL", "MCD", "MLD"], link: null
   },
   {
-    num: "04",
-    type: "Projet personnel",
-    title: "Portfolio interactif",
+    num: "04", type: "Projet personnel", title: "Portfolio interactif",
     short: "Ce portfolio — journal de stage integre, sections dynamiques.",
     desc: "Developpement de ce portfolio de bout en bout : design, integration HTML/CSS, journal de stage interactif avec sauvegarde locale, navigation fluide et composants JavaScript sans framework.",
-    tags: ["HTML", "CSS", "JavaScript", "Design"],
-    link: null
+    tags: ["HTML", "CSS", "JavaScript", "Design"], link: null
   }
 ];
 
@@ -1585,6 +1573,92 @@ renderProjects();
 // ================================================================
 // FIN PROJETS
 // ================================================================
+
+/* ================================================================
+   PARTICULES FLOTTANTES
+   ================================================================ */
+(function() {
+  const canvas = document.createElement("canvas");
+  canvas.style.cssText = "position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.55;";
+  document.body.prepend(canvas);
+  const ctx = canvas.getContext("2d");
+  let W, H, particles;
+
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  function makeParticle() {
+    return {
+      x: Math.random() * W, y: Math.random() * H,
+      r: Math.random() * 1.6 + 0.3,
+      speedX: (Math.random() - 0.5) * 0.18,
+      speedY: (Math.random() - 0.5) * 0.18 - 0.06,
+      alpha: Math.random() * 0.55 + 0.08,
+      alphaDir: (Math.random() > 0.5 ? 1 : -1) * 0.003,
+    };
+  }
+  function init() { resize(); const n = Math.min(Math.floor((W*H)/14000),90); particles = Array.from({length:n},makeParticle); }
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    for (const p of particles) {
+      p.x += p.speedX; p.y += p.speedY;
+      p.alpha += p.alphaDir;
+      if (p.alpha > 0.65 || p.alpha < 0.06) p.alphaDir *= -1;
+      if (p.x < -4) p.x = W+4; if (p.x > W+4) p.x = -4;
+      if (p.y < -4) p.y = H+4; if (p.y > H+4) p.y = -4;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(197,154,122,${p.alpha})`; ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener("resize", resize);
+  init(); draw();
+})();
+
+/* ================================================================
+   SCROLL PROGRESS INDICATOR
+   ================================================================ */
+(function() {
+  const bar = document.createElement("div");
+  bar.style.cssText = "position:fixed;left:18px;top:50%;transform:translateY(-50%);width:3px;height:200px;background:rgba(197,154,122,0.12);border-radius:999px;z-index:50;overflow:hidden;opacity:0;transition:opacity 400ms ease;";
+  const fill = document.createElement("div");
+  fill.style.cssText = "position:absolute;top:0;left:0;right:0;height:0%;background:linear-gradient(180deg,rgba(197,154,122,0.9),rgba(197,154,122,0.3));border-radius:999px;transition:height 80ms linear;";
+  const dot = document.createElement("div");
+  dot.style.cssText = "position:absolute;left:50%;transform:translateX(-50%);width:6px;height:6px;border-radius:999px;background:rgba(197,154,122,0.9);box-shadow:0 0 8px rgba(197,154,122,0.6);transition:top 80ms linear;top:0%;";
+  bar.appendChild(fill); bar.appendChild(dot);
+  document.body.appendChild(bar);
+
+  window.addEventListener("scroll", () => {
+    const pct = Math.min(window.scrollY / (document.documentElement.scrollHeight - window.innerHeight), 1);
+    fill.style.height = (pct*100)+"%";
+    dot.style.top = "calc("+(pct*100)+"% - 3px)";
+    bar.style.opacity = window.scrollY > 60 ? "1" : "0";
+  }, { passive: true });
+})();
+
+/* ================================================================
+   PARALLAX HERO
+   ================================================================ */
+(function() {
+  const heroCopy = document.querySelector(".hero-copy");
+  const heroPanel = document.querySelector(".hero-panel");
+  const hero = document.querySelector(".hero");
+  if (!heroCopy || !heroPanel || !hero) return;
+  let ticking = false;
+  window.addEventListener("scroll", () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      const h = hero.offsetHeight;
+      if (y > h * 1.2) { ticking = false; return; }
+      const pct = y / h;
+      heroCopy.style.transform  = `translateY(${y * 0.18}px)`;
+      heroCopy.style.opacity    = Math.max(0, 1 - pct * 1.1);
+      heroPanel.style.transform = `translateY(${y * 0.09}px)`;
+      heroPanel.style.opacity   = Math.max(0, 1 - pct * 0.9);
+      ticking = false;
+    });
+  }, { passive: true });
+})();
 
   </script>
 </body>
