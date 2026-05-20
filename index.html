@@ -245,6 +245,117 @@ h1 span { color: var(--accent); }
 }
 .project-meta p { margin: 0; color: var(--accent); font-weight: 700; }
 
+/* ---- PROJECT CARDS CLIQUABLES ---- */
+.project-card {
+  cursor: pointer;
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  position: relative;
+  overflow: hidden;
+}
+.project-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 70% 30%, rgba(197,154,122,0.07), transparent 60%);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+.project-card:hover::after { opacity: 1; }
+.project-card:hover, .project-card:focus-visible {
+  transform: translateY(-5px);
+  border-color: rgba(197,154,122,0.25);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.32);
+  outline: none;
+}
+.project-card-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px; height: 32px;
+  border-radius: 999px;
+  border: 1px solid rgba(197,154,122,0.25);
+  background: rgba(197,154,122,0.08);
+  color: var(--accent);
+  margin-top: 18px;
+  transition: transform 200ms ease, background 200ms ease;
+}
+.project-card-arrow svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.project-card:hover .project-card-arrow { transform: translate(3px, -3px); background: rgba(197,154,122,0.18); }
+
+.project-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+.project-tag {
+  padding: 4px 10px; border-radius: 999px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(197,154,122,0.18);
+  color: var(--accent);
+  font-size: 0.75rem; font-weight: 700;
+}
+
+/* ---- MODAL PROJET ---- */
+.project-modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(8,6,5,0.82);
+  backdrop-filter: blur(10px);
+  z-index: 200;
+  display: none; place-items: center; padding: 20px;
+}
+.project-modal-overlay.open { display: grid; }
+
+.project-modal {
+  background: var(--surface-strong);
+  border: 1px solid rgba(255,245,235,0.1);
+  border-radius: 26px;
+  width: 100%; max-width: 560px;
+  max-height: 90vh;
+  display: flex; flex-direction: column;
+  box-shadow: 0 48px 96px rgba(0,0,0,0.6);
+  overflow: hidden;
+  animation: modal-in 280ms cubic-bezier(0.34,1.56,0.64,1) both;
+}
+
+.project-modal-body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+@keyframes modal-in {
+  from { opacity:0; transform: scale(0.92) translateY(16px); }
+  to   { opacity:1; transform: scale(1) translateY(0); }
+}
+
+.project-modal-banner {
+  height: 120px;
+  background: linear-gradient(135deg, var(--accent-soft) 0%, rgba(197,154,122,0.12) 100%);
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+.project-modal-num {
+  font-family: "Playfair Display", serif;
+  font-size: 5rem; font-weight: 700;
+  color: rgba(197,154,122,0.18);
+  line-height: 1;
+  user-select: none;
+}
+.project-modal-close {
+  position: absolute; top: 14px; right: 14px;
+  width: 34px; height: 34px; border-radius: 999px;
+  border: 1px solid rgba(255,245,235,0.12);
+  background: rgba(255,255,255,0.05);
+  color: var(--muted); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 180ms, color 180ms;
+}
+.project-modal-close:hover { background: rgba(255,80,80,0.14); color: #ff6060; border-color: rgba(255,80,80,0.28); }
+.project-modal-close svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+
+.project-modal-body { padding: 26px 28px 28px; }
+.project-modal-kicker { margin: 0 0 10px; color: var(--accent); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; }
+.project-modal-title { font-family: "Playfair Display", serif; font-size: 1.9rem; font-weight: 700; color: var(--text); margin: 0 0 14px; line-height: 1.1; }
+.project-modal-desc { color: var(--muted); line-height: 1.8; font-size: 0.97rem; margin: 0 0 20px; }
+.project-modal-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+.project-modal-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
 /* ---- SKILLS / CONTACT ---- */
 .skills-contact { grid-template-columns: 1fr; }
 .tags { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
@@ -871,18 +982,7 @@ h1 span { color: var(--accent); }
       <!-- PROJETS -->
       <section class="projects" id="projets">
         <div class="section-title reveal"><p class="eyebrow">Projets</p><h2>Une selection courte de projets.</h2></div>
-        <div class="project-list">
-          <article class="project-card reveal">
-            <div class="project-meta"><p>Projet 01</p><span>Projet web</span></div>
-            <h3>Site vitrine responsive</h3>
-            <p>Realisation d'un site clair et responsive avec une structure HTML/CSS propre et une attention particuliere a l'experience utilisateur.</p>
-          </article>
-          <article class="project-card reveal delay-1">
-            <div class="project-meta"><p>Projet 02</p><span>Projet applicatif</span></div>
-            <h3>Application de gestion</h3>
-            <p>Conception d'une petite application ou interface permettant de gerer des donnees, d'organiser des informations et de pratiquer la logique.</p>
-          </article>
-        </div>
+        <div class="project-list" id="project-list"></div>
       </section>
 
       <!-- ==========================================
@@ -983,6 +1083,25 @@ h1 span { color: var(--accent); }
         </div>
       </section>
     </main>
+  </div>
+
+  <!-- MODAL PROJET -->
+  <div class="project-modal-overlay" id="project-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="pmodal-title">
+    <div class="project-modal" id="project-modal">
+      <div class="project-modal-banner">
+        <span class="project-modal-num" id="pmodal-num">01</span>
+        <button class="project-modal-close" id="pmodal-close" aria-label="Fermer">
+          <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="project-modal-body">
+        <p class="project-modal-kicker" id="pmodal-type">Projet web</p>
+        <h2 class="project-modal-title" id="pmodal-title">Titre du projet</h2>
+        <p class="project-modal-desc" id="pmodal-desc">Description du projet.</p>
+        <div class="project-modal-tags" id="pmodal-tags"></div>
+        <div class="project-modal-actions" id="pmodal-actions"></div>
+      </div>
+    </div>
   </div>
 
   <!-- MODAL AJOUT SEMAINE -->
@@ -1353,18 +1472,120 @@ let autoSaveTimer = null;
   });
 });
 
-// --- Init ---
-renderWeeks();
+// ================================================================
+// PROJETS CLIQUABLES
+// ================================================================
+
+const PROJECTS = [
+  {
+    num: "01",
+    type: "Projet web",
+    title: "Site vitrine responsive",
+    short: "Un site clair et responsive, structure HTML/CSS propre.",
+    desc: "Realisation d'un site vitrine complet, clair et responsive avec une structure HTML et CSS propre. Attention particuliere portee a l'experience utilisateur, a l'accessibilite et a la compatibilite mobile.",
+    tags: ["HTML", "CSS", "Responsive", "UX"],
+    link: null
+  },
+  {
+    num: "02",
+    type: "Projet applicatif",
+    title: "Application de gestion",
+    short: "Interface de gestion de donnees avec logique applicative.",
+    desc: "Conception d'une interface permettant de gerer des donnees, d'organiser des informations et de pratiquer la logique applicative. Travail sur la structure des donnees, les formulaires et l'affichage dynamique.",
+    tags: ["JavaScript", "PHP", "MySQL", "CRUD"],
+    link: null
+  },
+  {
+    num: "03",
+    type: "Projet BDD",
+    title: "Modele de base de donnees",
+    short: "Conception MCD/MLD et implementation SQL.",
+    desc: "Creation d'un modele conceptuel et logique de donnees pour un systeme metier. Traduction en schema SQL, creation des tables, contraintes et requetes de manipulation.",
+    tags: ["SQL", "MySQL", "MCD", "MLD"],
+    link: null
+  },
+  {
+    num: "04",
+    type: "Projet personnel",
+    title: "Portfolio interactif",
+    short: "Ce portfolio — journal de stage integre, sections dynamiques.",
+    desc: "Developpement de ce portfolio de bout en bout : design, integration HTML/CSS, journal de stage interactif avec sauvegarde locale, navigation fluide et composants JavaScript sans framework.",
+    tags: ["HTML", "CSS", "JavaScript", "Design"],
+    link: null
+  }
+];
+
+const projectList = document.getElementById("project-list");
+const projectModalOverlay = document.getElementById("project-modal-overlay");
+const pmodalClose = document.getElementById("pmodal-close");
+
+function renderProjects() {
+  projectList.innerHTML = "";
+  PROJECTS.forEach((proj, i) => {
+    const card = document.createElement("article");
+    card.className = "project-card reveal" + (i % 2 === 1 ? " delay-1" : "");
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+    card.setAttribute("aria-label", "Voir " + proj.title);
+    card.innerHTML = `
+      <div class="project-meta"><p>Projet ${proj.num}</p><span>${proj.type}</span></div>
+      <h3>${proj.title}</h3>
+      <p>${proj.short}</p>
+      <div class="project-tags">${proj.tags.map(t => `<span class="project-tag">${t}</span>`).join("")}</div>
+      <span class="project-card-arrow">
+        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+      </span>
+    `;
+    card.addEventListener("click", () => openProjectModal(proj));
+    card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openProjectModal(proj); } });
+    projectList.appendChild(card);
+  });
+  // Re-trigger reveal observer for new cards
+  document.querySelectorAll(".project-card.reveal").forEach(el => observer.observe(el));
+}
+
+function openProjectModal(proj) {
+  document.getElementById("pmodal-num").textContent = proj.num;
+  document.getElementById("pmodal-type").textContent = proj.type;
+  document.getElementById("pmodal-title").textContent = proj.title;
+  document.getElementById("pmodal-desc").textContent = proj.desc;
+
+  const tagsEl = document.getElementById("pmodal-tags");
+  tagsEl.innerHTML = proj.tags.map(t => `<span class="project-tag">${t}</span>`).join("");
+
+  const actionsEl = document.getElementById("pmodal-actions");
+  actionsEl.innerHTML = "";
+  if (proj.link) {
+    const a = document.createElement("a");
+    a.href = proj.link; a.target = "_blank"; a.rel = "noopener";
+    a.className = "button"; a.textContent = "Voir le projet";
+    actionsEl.appendChild(a);
+  }
+  const closeBtn2 = document.createElement("button");
+  closeBtn2.className = "button secondary"; closeBtn2.textContent = "Fermer";
+  closeBtn2.addEventListener("click", closeProjectModal);
+  actionsEl.appendChild(closeBtn2);
+
+  projectModalOverlay.classList.add("open");
+  document.body.style.overflow = "hidden";
+  pmodalClose.focus();
+}
+
+function closeProjectModal() {
+  projectModalOverlay.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+pmodalClose.addEventListener("click", closeProjectModal);
+projectModalOverlay.addEventListener("click", e => { if (e.target === projectModalOverlay) closeProjectModal(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeProjectModal(); });
+
+renderProjects();
+
+// ================================================================
+// FIN PROJETS
+// ================================================================
+
   </script>
 </body>
-</html>export function canFreePrisoner(
-  knightIsAwake,
-  archerIsAwake,
-  prisonerIsAwake,
-  petDogIsPresent,
-) {
-  return (
-    (petDogIsPresent && !archerIsAwake) ||
-    (!petDogIsPresent && !knightIsAwake && !archerIsAwake && prisonerIsAwake)
-  );
-}
+</html>
