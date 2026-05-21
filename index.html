@@ -147,6 +147,34 @@ main, section, .topbar, .hero, .tech-hub, .category-grid, .project-list {
   z-index: 100;
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.brand-logo {
+  width: 24px;
+  height: 24px;
+  color: var(--accent);
+  filter: drop-shadow(0 0 8px rgba(197, 154, 122, 0.3));
+}
+
+.brand span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding-left: 8px;
+  border-left: 1px solid var(--line);
+  margin-left: 4px;
+}
+
 .nav {
   position: relative;
   display: flex; flex: 1 1 320px; min-width: 0; max-width: 100%;
@@ -1019,7 +1047,12 @@ h1 span { color: var(--accent); }
 <body>
   <div class="page-shell">
     <header class="topbar">
-      <a href="#accueil" class="brand">Gwendal.<span>BTS SIO SLAM</span></a>
+      <a href="#accueil" class="brand">
+        <svg class="brand-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+        </svg>
+        Gwendal.<span>BTS SIO SLAM</span>
+      </a>
       <nav class="nav" id="main-nav">
         <div class="nav-indicator" id="nav-indicator"></div>
         <a href="#accueil" class="nav-link" aria-label="Accueil" data-section="accueil">
