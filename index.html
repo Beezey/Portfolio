@@ -403,68 +403,160 @@ h1 span { color: var(--accent); }
   font-size: 0.75rem; font-weight: 700;
 }
 
-/* ---- MODAL PROJET ---- */
+
+
+/* ---- FULLSCREEN PROJET ---- */
 .project-modal-overlay {
   position: fixed; inset: 0;
-  background: rgba(8,6,5,0.82);
-  backdrop-filter: blur(10px);
+  background: var(--bg);
   z-index: 200;
-  display: none; place-items: center; padding: 20px;
-}
-.project-modal-overlay.open { display: grid; }
-
-.project-modal {
-  background: var(--surface-strong);
-  border: 1px solid rgba(255,245,235,0.1);
-  border-radius: 26px;
-  width: 100%; max-width: 560px;
-  max-height: 90vh;
-  display: flex; flex-direction: column;
-  box-shadow: 0 48px 96px rgba(0,0,0,0.6);
+  display: none;
+  flex-direction: column;
   overflow: hidden;
-  animation: modal-in 280ms cubic-bezier(0.34,1.56,0.64,1) both;
 }
+.project-modal-overlay.open { display: flex; }
 
-.project-modal-body {
-  overflow-y: auto;
-  overscroll-behavior: contain;
-}
 @keyframes modal-in {
-  from { opacity:0; transform: scale(0.92) translateY(16px); }
-  to   { opacity:1; transform: scale(1) translateY(0); }
+  from { opacity:0; transform: translateY(24px); }
+  to   { opacity:1; transform: translateY(0); }
 }
 
-.project-modal-banner {
-  height: 120px;
-  background: linear-gradient(135deg, var(--accent-soft) 0%, rgba(197,154,122,0.12) 100%);
-  position: relative;
-  display: flex; align-items: center; justify-content: center;
+/* Topbar de la page projet */
+.pfs-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(22,19,17,0.9);
+  backdrop-filter: blur(12px);
+  flex-shrink: 0;
+  animation: modal-in 260ms ease both;
 }
-.project-modal-num {
+.pfs-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; border: 1px solid var(--line);
+  color: var(--muted); padding: 8px 16px; border-radius: 999px;
+  font: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer;
+  transition: color 180ms, border-color 180ms, transform 180ms;
+}
+.pfs-back:hover { color: var(--text); border-color: rgba(255,245,235,0.18); transform: translateX(-2px); }
+.pfs-back svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.pfs-topbar-num {
   font-family: "Playfair Display", serif;
-  font-size: 5rem; font-weight: 700;
-  color: rgba(197,154,122,0.18);
-  line-height: 1;
-  user-select: none;
+  font-size: 0.95rem; font-weight: 700;
+  color: rgba(197,154,122,0.4);
+  letter-spacing: 0.1em;
 }
-.project-modal-close {
-  position: absolute; top: 14px; right: 14px;
-  width: 34px; height: 34px; border-radius: 999px;
-  border: 1px solid rgba(255,245,235,0.12);
-  background: rgba(255,255,255,0.05);
+.pfs-topbar-actions { display: flex; gap: 8px; }
+
+/* Layout principal */
+.pfs-body {
+  flex: 1; overflow-y: auto; overscroll-behavior: contain;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 0;
+  animation: modal-in 300ms 60ms ease both;
+}
+
+/* Panneau gauche — infos */
+.pfs-info {
+  padding: 40px 36px;
+  border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: 28px;
+  position: sticky; top: 0; max-height: 100vh; overflow-y: auto;
+}
+.pfs-kicker {
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--accent); margin: 0;
+}
+.pfs-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700;
+  color: var(--text); margin: 0; line-height: 1.05;
+}
+.pfs-desc {
+  color: var(--muted); line-height: 1.85; font-size: 0.98rem; margin: 0;
+}
+.pfs-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.pfs-divider { height: 1px; background: var(--line); }
+.pfs-meta { display: grid; gap: 14px; }
+.pfs-meta-item { display: flex; flex-direction: column; gap: 3px; }
+.pfs-meta-label { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(197,154,122,0.5); }
+.pfs-meta-value { font-size: 0.92rem; color: var(--text); font-weight: 500; }
+.pfs-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
+
+/* Panneau droit — preview */
+.pfs-preview {
+  display: flex; flex-direction: column;
+  background: #0d0b0a;
+  position: relative;
+}
+.pfs-preview-bar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px;
+  background: rgba(20,17,15,0.9);
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.pfs-preview-url {
+  flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--line);
+  border-radius: 6px; padding: 5px 12px; font-size: 0.78rem;
+  color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  display: flex;
+  justify-content: center;
+}
+.pfs-preview iframe {
+  flex: 1; width: 100%; border: none; display: block;
+  min-height: 0;
+}
+.pfs-preview-placeholder {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 16px; color: var(--muted);
+}
+.pfs-preview-placeholder svg { width: 40px; height: 40px; stroke: rgba(197,154,122,0.3); fill: none; stroke-width: 1.5; }
+.pfs-preview-placeholder p { margin: 0; font-size: 0.9rem; }
+
+/* ---- CARROUSEL SCREENSHOTS ---- */
+.pfs-carrousel {
+  flex: 1; display: flex; flex-direction: column;
+  position: relative; overflow: hidden; background: #0d0b0a;
+}
+.pfs-carr-track {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 20px; min-height: 0;
+}
+.pfs-carr-img {
+  max-width: 100%; max-height: 100%; object-fit: contain;
+  border-radius: 8px; display: block;
+  transition: opacity 150ms ease;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.pfs-carr-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 38px; height: 38px; border-radius: 999px;
+  background: rgba(22,19,17,0.9); border: 1px solid var(--line);
   color: var(--muted); cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: background 180ms, color 180ms;
+  transition: color 180ms, border-color 180ms, transform 180ms;
+  z-index: 2;
 }
-.project-modal-close:hover { background: rgba(255,80,80,0.14); color: #ff6060; border-color: rgba(255,80,80,0.28); }
-.project-modal-close svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
-
-.project-modal-body { padding: 26px 28px 28px; }
-.project-modal-kicker { margin: 0 0 10px; color: var(--accent); font-size: 0.75rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; }
-.project-modal-title { font-family: "Playfair Display", serif; font-size: 1.9rem; font-weight: 700; color: var(--text); margin: 0 0 14px; line-height: 1.1; }
-.project-modal-desc { color: var(--muted); line-height: 1.8; font-size: 0.97rem; margin: 0 0 20px; }
-.project-modal-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
-.project-modal-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.pfs-carr-btn:hover { color: var(--text); border-color: rgba(197,154,122,0.3); }
+.pfs-carr-prev { left: 14px; }
+.pfs-carr-prev:hover { transform: translateY(-50%) translateX(-2px); }
+.pfs-carr-next { right: 14px; }
+.pfs-carr-next:hover { transform: translateY(-50%) translateX(2px); }
+.pfs-carr-btn svg { width: 16px; height: 16px; }
+.pfs-carr-dots {
+  display: flex; justify-content: center; gap: 6px;
+  padding: 12px; flex-shrink: 0;
+}
+.pfs-carr-dot {
+  width: 6px; height: 6px; border-radius: 999px;
+  background: rgba(197,154,122,0.2);
+  transition: background 200ms, width 200ms;
+}
+.pfs-carr-dot.active { background: var(--accent); width: 18px; }
 
 /* ---- SKILLS / CONTACT ---- */
 .skills-contact { grid-template-columns: 1fr; }
@@ -1309,22 +1401,46 @@ h1 span { color: var(--accent); }
     </div>
   </div>
 
-  <!-- MODAL PROJET -->
+  <!-- FULLSCREEN PROJET -->
   <div class="project-modal-overlay" id="project-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="pmodal-title">
-    <div class="project-modal" id="project-modal">
-      <div class="project-modal-banner">
-        <span class="project-modal-num" id="pmodal-num">01</span>
-        <button class="project-modal-close" id="pmodal-close" aria-label="Fermer">
-          <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-        </button>
+
+    <!-- Topbar -->
+    <div class="pfs-topbar">
+      <button class="pfs-back" id="pmodal-close" aria-label="Retour aux projets">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M5 12l7 7M5 12l7-7"/></svg>
+        Retour
+      </button>
+      <span class="pfs-topbar-num" id="pmodal-num">Projet 01</span>
+      <div class="pfs-topbar-actions" id="pmodal-actions"></div>
+    </div>
+
+    <!-- Corps -->
+    <div class="pfs-body">
+
+      <!-- Gauche : infos -->
+      <div class="pfs-info">
+        <p class="pfs-kicker" id="pmodal-type">Projet web</p>
+        <h2 class="pfs-title" id="pmodal-title">Titre du projet</h2>
+        <p class="pfs-desc" id="pmodal-desc">Description.</p>
+        <div class="pfs-divider"></div>
+        <div class="pfs-tags" id="pmodal-tags"></div>
+        <div class="pfs-divider"></div>
+        <div class="pfs-meta" id="pmodal-meta"></div>
       </div>
-      <div class="project-modal-body">
-        <p class="project-modal-kicker" id="pmodal-type">Projet web</p>
-        <h2 class="project-modal-title" id="pmodal-title">Titre du projet</h2>
-        <p class="project-modal-desc" id="pmodal-desc">Description du projet.</p>
-        <div class="project-modal-tags" id="pmodal-tags"></div>
-<div class="project-modal-actions" id="pmodal-actions"></div>
+
+      <!-- Droite : preview -->
+      <div class="pfs-preview" id="pmodal-preview-panel">
+        <div class="pfs-preview-bar">
+          <div class="pfs-preview-dots">
+            <span class="pfs-preview-dot"></span>
+            <span class="pfs-preview-dot"></span>
+            <span class="pfs-preview-dot"></span>
+          </div>
+          <span class="pfs-preview-url" id="pmodal-preview-url">—</span>
+        </div>
+        <div id="pmodal-preview-content" style="flex:1;display:flex;flex-direction:column;min-height:0;"></div>
       </div>
+
     </div>
   </div>
 
@@ -1708,30 +1824,27 @@ let autoSaveTimer = null;
 // ================================================================
 
 const PROJECTS = [
-  {
-    num: "01", type: "Projet web", title: "Site vitrine responsive",
-    short: "Un site clair et responsive, structure HTML/CSS propre.",
-    desc: "Realisation d'un site vitrine complet, clair et responsive avec une structure HTML et CSS propre. Attention particuliere portee a l'experience utilisateur, a l'accessibilite et a la compatibilite mobile.",
-    tags: ["HTML", "CSS", "Responsive", "UX"], link: null
+{
+    num: "01", type: "Projet personnel", title: "Simulation UltraKill",
+    short: "Simulation du jeu UltraKill entierement dans le navigateur.",
+    desc: "Recreation d'une experience inspiree d'UltraKill directement dans le navigateur. Projet de veille personnelle pour experimenter les mecaniques de jeu, les animations et la logique temps reel en JavaScript vanilla.",
+    tags: ["JavaScript", "HTML", "CSS", "GameDev"], link: "https://beezey.github.io/UltraKill/",
+    preview: "https://beezey.github.io/UltraKill/"
   },
+
   {
-    num: "02", type: "Projet applicatif", title: "Application de gestion",
-    short: "Interface de gestion de donnees avec logique applicative.",
-    desc: "Conception d'une interface permettant de gerer des donnees, d'organiser des informations et de pratiquer la logique applicative. Travail sur la structure des donnees, les formulaires et l'affichage dynamique.",
-    tags: ["JavaScript", "PHP", "MySQL", "CRUD"], link: null
-  },
-  {
-    num: "03", type: "Projet BDD", title: "Modele de base de donnees",
-    short: "Conception MCD/MLD et implementation SQL.",
-    desc: "Creation d'un modele conceptuel et logique de donnees pour un systeme metier. Traduction en schema SQL, creation des tables, contraintes et requetes de manipulation.",
-    tags: ["SQL", "MySQL", "MCD", "MLD"], link: null
-  },
-  {
-    num: "04", type: "Projet personnel", title: "Portfolio interactif",
+    num: "02", type: "Projet personnel", title: "Portfolio interactif",
     short: "Ce portfolio — journal de stage integre, sections dynamiques.",
     desc: "Developpement de ce portfolio de bout en bout : design, integration HTML/CSS, journal de stage interactif avec sauvegarde locale, navigation fluide et composants JavaScript sans framework.",
     tags: ["HTML", "CSS", "JavaScript", "Design"], link: null
-  }
+  },
+  {
+    num: "03", type: "Projet web", title: "Site vitrine responsive",
+    short: "Un site clair et responsive, structure HTML/CSS propre.",
+    desc: "Realisation d'un site vitrine complet, clair et responsive avec une structure HTML et CSS propre. Attention particuliere portee a l'experience utilisateur, a l'accessibilite et a la compatibilite mobile.",
+    tags: ["HTML", "CSS", "Responsive", "UX"], link: null,
+    images: ["assets/imageTest.png", "assets/testVideo.mp4"]
+  },
 ];
 
 const projectList = document.getElementById("project-list");
@@ -1764,30 +1877,124 @@ function renderProjects() {
 }
 
 function openProjectModal(proj) {
-  document.getElementById("pmodal-num").textContent = proj.num;
+  document.getElementById("pmodal-num").textContent = "Projet " + proj.num;
   document.getElementById("pmodal-type").textContent = proj.type;
   document.getElementById("pmodal-title").textContent = proj.title;
   document.getElementById("pmodal-desc").textContent = proj.desc;
 
+  // Tags
   const tagsEl = document.getElementById("pmodal-tags");
   tagsEl.innerHTML = proj.tags.map(t => `<span class="project-tag">${t}</span>`).join("");
 
+  // Meta
+  const metaEl = document.getElementById("pmodal-meta");
+  metaEl.innerHTML = `
+    <div class="pfs-meta-item">
+      <span class="pfs-meta-label">Categorie</span>
+      <span class="pfs-meta-value">${proj.type}</span>
+    </div>
+    <div class="pfs-meta-item">
+      <span class="pfs-meta-label">Technologies</span>
+      <span class="pfs-meta-value">${proj.tags.join(", ")}</span>
+    </div>
+    ${proj.link ? `<div class="pfs-meta-item"><span class="pfs-meta-label">Lien</span><span class="pfs-meta-value"><a href="${proj.link}" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;">${proj.link}</a></span></div>` : ""}
+  `;
+
+  // Actions topbar
   const actionsEl = document.getElementById("pmodal-actions");
   actionsEl.innerHTML = "";
   if (proj.link) {
     const a = document.createElement("a");
     a.href = proj.link; a.target = "_blank"; a.rel = "noopener";
-    a.className = "button"; a.textContent = "Voir le projet";
+    a.className = "button"; a.textContent = "Ouvrir le site ↗";
     actionsEl.appendChild(a);
   }
-  const closeBtn2 = document.createElement("button");
-  closeBtn2.className = "button secondary"; closeBtn2.textContent = "Fermer";
-  closeBtn2.addEventListener("click", closeProjectModal);
-  actionsEl.appendChild(closeBtn2);
+
+  // Preview : images > iframe > placeholder
+  const previewUrl = document.getElementById("pmodal-preview-url");
+  const previewContent = document.getElementById("pmodal-preview-content");
+  previewContent.innerHTML = "";
+
+  const hasImages = proj.images && proj.images.length > 0;
+
+  if (hasImages) {
+    previewUrl.textContent = proj.images.length + " screenshot" + (proj.images.length > 1 ? "s" : "");
+    let currentImg = 0;
+    const total = proj.images.length;
+
+    const carrousel = document.createElement("div");
+    carrousel.className = "pfs-carrousel";
+    const firstSrc = proj.images[0];
+    const firstMedia = firstSrc.match(/\.(mp4|webm|ogg)$/i)
+      ? `<video class="pfs-carr-img" src="${firstSrc}" controls autoplay muted loop playsinline></video>`
+      : `<img class="pfs-carr-img" src="${firstSrc}" alt="Screenshot 1">`;
+
+    carrousel.innerHTML = `
+      <div class="pfs-carr-track" style="transition:opacity 150ms ease;">
+        ${firstMedia}
+      </div>
+      ${total > 1 ? `
+      <button class="pfs-carr-btn pfs-carr-prev" aria-label="Precedent">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="pfs-carr-btn pfs-carr-next" aria-label="Suivant">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+      <div class="pfs-carr-dots">
+        ${proj.images.map((_, i) => `<span class="pfs-carr-dot ${i === 0 ? 'active' : ''}"></span>`).join("")}
+      </div>` : ""}
+    `;
+
+    const dots = carrousel.querySelectorAll(".pfs-carr-dot");
+
+    function isVideo(src) { return src.match(/\.(mp4|webm|ogg)$/i); }
+
+    function goTo(idx) {
+      currentImg = (idx + total) % total;
+      const src = proj.images[currentImg];
+      const track = carrousel.querySelector(".pfs-carr-track");
+      track.style.opacity = "0";
+      setTimeout(() => {
+        if (isVideo(src)) {
+          track.innerHTML = `<video class="pfs-carr-img" src="${src}" controls autoplay muted loop playsinline></video>`;
+        } else {
+          track.innerHTML = `<img class="pfs-carr-img" src="${src}" alt="Screenshot ${currentImg + 1}">`;
+        }
+        track.style.opacity = "1";
+      }, 150);
+      dots.forEach((d, i) => d.classList.toggle("active", i === currentImg));
+    }
+
+    if (total > 1) {
+      carrousel.querySelector(".pfs-carr-prev").addEventListener("click", () => goTo(currentImg - 1));
+      carrousel.querySelector(".pfs-carr-next").addEventListener("click", () => goTo(currentImg + 1));
+    }
+
+    previewContent.appendChild(carrousel);
+
+  } else if (proj.preview) {
+    previewUrl.textContent = proj.preview;
+    const iframe = document.createElement("iframe");
+    iframe.src = proj.preview;
+    iframe.title = "Preview " + proj.title;
+    iframe.setAttribute("loading", "lazy");
+    iframe.setAttribute("sandbox", "allow-scripts allow-same-origin");
+    iframe.style.cssText = "flex:1;width:100%;border:none;display:block;min-height:0;";
+    previewContent.appendChild(iframe);
+  } else {
+    previewUrl.textContent = "Aucun visuel disponible";
+    previewContent.innerHTML = `
+      <div class="pfs-preview-placeholder">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M7 21h10M12 17v4"/></svg>
+        <p>Pas de preview disponible</p>
+        <span style="font-size:0.8rem;color:rgba(197,154,122,0.4);">Ce projet n'a pas de demo en ligne.</span>
+      </div>
+    `;
+  }
 
   projectModalOverlay.classList.add("open");
   document.body.style.overflow = "hidden";
-  pmodalClose.focus();
+  document.getElementById("pmodal-close").focus();
 }
 
 function closeProjectModal() {
